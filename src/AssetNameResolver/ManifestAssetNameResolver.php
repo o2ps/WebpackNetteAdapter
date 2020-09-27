@@ -1,29 +1,23 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\AssetNameResolver;
+
 
 use Oops\WebpackNetteAdapter\Manifest\CannotLoadManifestException;
 use Oops\WebpackNetteAdapter\Manifest\ManifestLoader;
 
-
 final class ManifestAssetNameResolver implements AssetNameResolverInterface
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $manifestName;
 
-	/**
-	 * @var ManifestLoader
-	 */
+	/** @var ManifestLoader */
 	private $loader;
 
-	/**
-	 * @var array<string, string>|NULL
-	 */
+	/** @var array<string, string>|null */
 	private $manifestCache;
 
 
@@ -36,7 +30,7 @@ final class ManifestAssetNameResolver implements AssetNameResolverInterface
 
 	public function resolveAssetName(string $asset): string
 	{
-		if ($this->manifestCache === NULL) {
+		if ($this->manifestCache === null) {
 			try {
 				$this->manifestCache = $this->loader->loadManifest($this->manifestName);
 
@@ -44,8 +38,7 @@ final class ManifestAssetNameResolver implements AssetNameResolverInterface
 				throw new CannotResolveAssetNameException('Failed to load manifest file.', 0, $e);
 			}
 		}
-
-		if ( ! isset($this->manifestCache[$asset])) {
+		if (isset($this->manifestCache[$asset]) === false) {
 			throw new CannotResolveAssetNameException(\sprintf(
 				"Asset '%s' was not found in the manifest file '%s'",
 				$asset, $this->loader->getManifestPath($this->manifestName)
@@ -54,5 +47,4 @@ final class ManifestAssetNameResolver implements AssetNameResolverInterface
 
 		return $this->manifestCache[$asset];
 	}
-
 }

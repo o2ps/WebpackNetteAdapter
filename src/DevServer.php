@@ -1,44 +1,32 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter;
+
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 
-
 class DevServer
 {
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $enabled;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $available;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $url;
 
-	/**
-	 * @var ?string
-	 */
+	/** @var string|null */
 	private $publicUrl;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $timeout;
 
-	/**
-	 * @var ClientInterface
-	 */
+	/** @var ClientInterface */
 	private $httpClient;
 
 
@@ -72,11 +60,10 @@ class DevServer
 
 	public function isAvailable(): bool
 	{
-		if ( ! $this->isEnabled()) {
-			return FALSE;
+		if (!$this->isEnabled()) {
+			return false;
 		}
-
-		if ($this->available === NULL) {
+		if ($this->available === null) {
 			try {
 				/*
 				 * This can produce false positives (if a different application is listening on the target port),
@@ -85,15 +72,14 @@ class DevServer
 				 * with an "X-Powered-By: Express" header, webpack-serve gives no hint whatsoever.
 				 */
 
-				$this->httpClient->request('GET', $this->url, ['http_errors' => FALSE, 'verify' => FALSE, 'timeout' => $this->timeout]);
-				$this->available = TRUE;
+				$this->httpClient->request('GET', $this->url, ['http_errors' => false, 'verify' => false, 'timeout' => $this->timeout]);
+				$this->available = true;
 
 			} catch (GuzzleException $e) {
-				$this->available = FALSE;
+				$this->available = false;
 			}
 		}
 
 		return $this->available;
 	}
-
 }

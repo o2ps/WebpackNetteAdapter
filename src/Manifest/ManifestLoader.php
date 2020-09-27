@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\Manifest;
 
+
 use Nette\Utils\Json;
 use Oops\WebpackNetteAdapter\BuildDirectoryProvider;
-
 
 /**
  * @internal
@@ -14,14 +14,10 @@ use Oops\WebpackNetteAdapter\BuildDirectoryProvider;
 class ManifestLoader
 {
 
-	/**
-	 * @var BuildDirectoryProvider
-	 */
+	/** @var BuildDirectoryProvider */
 	private $directoryProvider;
 
-	/**
-	 * @var ManifestMapper
-	 */
+	/** @var ManifestMapper */
 	private $manifestMapper;
 
 
@@ -39,10 +35,10 @@ class ManifestLoader
 	public function loadManifest(string $fileName): array
 	{
 		$path = $this->getManifestPath($fileName);
-		$context = \stream_context_create(['ssl' => ['verify_peer' => FALSE, 'verify_peer_name' => FALSE]]); // webpack-dev-server uses self-signed certificate
-		$manifest = @\file_get_contents($path, FALSE, $context); // @ - errors handled by custom exception
+		$context = \stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]); // webpack-dev-server uses self-signed certificate
+		$manifest = @\file_get_contents($path, false, $context); // @ - errors handled by custom exception
 
-		if ($manifest === FALSE) {
+		if ($manifest === false) {
 			throw new CannotLoadManifestException(\sprintf(
 				"Manifest file '%s' could not be loaded: %s",
 				$path, \error_get_last()['message'] ?? 'unknown error'
@@ -57,5 +53,4 @@ class ManifestLoader
 	{
 		return $this->directoryProvider->getBuildDirectory() . '/' . $fileName;
 	}
-
 }

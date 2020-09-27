@@ -1,16 +1,16 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\BasePath;
 
-use Nette\Http\IRequest;
 
+use Nette\Http\IRequest;
 
 final class NetteHttpBasePathProvider implements BasePathProvider
 {
 
-	/**
-	 * @var IRequest
-	 */
+	/** @var IRequest */
 	private $httpRequest;
 
 
@@ -24,5 +24,4 @@ final class NetteHttpBasePathProvider implements BasePathProvider
 	{
 		return $this->httpRequest->getUrl()->getBasePath();
 	}
-
 }

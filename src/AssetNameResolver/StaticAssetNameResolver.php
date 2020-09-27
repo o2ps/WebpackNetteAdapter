@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\AssetNameResolver;
 
@@ -8,9 +8,7 @@ namespace Oops\WebpackNetteAdapter\AssetNameResolver;
 final class StaticAssetNameResolver implements AssetNameResolverInterface
 {
 
-	/**
-	 * @var array<string, string>
-	 */
+	/** @var array<string, string> */
 	private $resolutions;
 
 
@@ -25,7 +23,7 @@ final class StaticAssetNameResolver implements AssetNameResolverInterface
 
 	public function resolveAssetName(string $asset): string
 	{
-		if ( ! isset($this->resolutions[$asset])) {
+		if (isset($this->resolutions[$asset]) === false) {
 			throw new CannotResolveAssetNameException(\sprintf(
 				"Asset '%s' was not found in the resolutions array",
 				$asset
@@ -34,5 +32,4 @@ final class StaticAssetNameResolver implements AssetNameResolverInterface
 
 		return $this->resolutions[$asset];
 	}
-
 }

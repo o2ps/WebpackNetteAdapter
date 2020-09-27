@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\Manifest;
 
@@ -10,10 +10,12 @@ abstract class ManifestMapper
 	{
 	}
 
+
 	/**
 	 * Modifies manifest contents
+	 *
 	 * @param array<mixed> $manifest
 	 * @return array<string, string>
 	 */
-	abstract public function map(array $manifest) : array;
+	abstract public function map(array $manifest): array;
 }

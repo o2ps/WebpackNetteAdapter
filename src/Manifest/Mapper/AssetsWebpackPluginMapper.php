@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\Manifest\Mapper;
 
-use Oops\WebpackNetteAdapter\Manifest\ManifestMapper;
 
+use Oops\WebpackNetteAdapter\Manifest\ManifestMapper;
 
 /**
  * Maps from https://github.com/ztoben/assets-webpack-plugin format to flat files
@@ -36,6 +36,7 @@ class AssetsWebpackPluginMapper extends ManifestMapper
 				$result[$main . '.' . $name] = $file;
 			}
 		}
+
 		return $result;
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter;
 
@@ -11,14 +11,10 @@ namespace Oops\WebpackNetteAdapter;
 class BuildDirectoryProvider
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $directory;
 
-	/**
-	 * @var DevServer
-	 */
+	/** @var DevServer */
 	private $devServer;
 
 
@@ -35,5 +31,4 @@ class BuildDirectoryProvider
 			? $this->devServer->getInternalUrl()
 			: $this->directory;
 	}
-
 }

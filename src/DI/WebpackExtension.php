@@ -1,8 +1,9 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\DI;
+
 
 use GuzzleHttp\Client;
 use Nette\Bridges\ApplicationLatte\ILatteFactory;
@@ -18,11 +19,10 @@ use Oops\WebpackNetteAdapter\BasePath\NetteHttpBasePathProvider;
 use Oops\WebpackNetteAdapter\BuildDirectoryProvider;
 use Oops\WebpackNetteAdapter\Debugging\WebpackPanel;
 use Oops\WebpackNetteAdapter\DevServer;
-use Oops\WebpackNetteAdapter\Manifest\Mapper\WebpackManifestPluginMapper;
 use Oops\WebpackNetteAdapter\Manifest\ManifestLoader;
+use Oops\WebpackNetteAdapter\Manifest\Mapper\WebpackManifestPluginMapper;
 use Oops\WebpackNetteAdapter\PublicPathProvider;
 use Tracy;
-
 
 /**
  * @property array<string, mixed> $config
@@ -34,35 +34,35 @@ class WebpackExtension extends CompilerExtension
 	 * @var array<string, mixed>
 	 */
 	private $defaults = [
-		'debugger' => NULL,
-		'macros' => NULL,
+		'debugger' => null,
+		'macros' => null,
 		'devServer' => [
-			'enabled' => NULL,
-			'url' => NULL,
-			'publicUrl' => NULL,
-            'timeout' => 0.1,
+			'enabled' => null,
+			'url' => null,
+			'publicUrl' => null,
+			'timeout' => 0.1,
 			'ignoredAssets' => [],
 		],
 		'build' => [
-			'directory' => NULL,
-			'publicPath' => NULL,
+			'directory' => null,
+			'publicPath' => null,
 		],
 		'manifest' => [
-			'name' => NULL,
-			'optimize' => NULL,
+			'name' => null,
+			'optimize' => null,
 			'mapper' => WebpackManifestPluginMapper::class,
-		]
+		],
 	];
 
 
-	public function __construct(bool $debugMode, ?bool $consoleMode = NULL)
+	public function __construct(bool $debugMode, ?bool $consoleMode = null)
 	{
 		$consoleMode = $consoleMode ?? \PHP_SAPI === 'cli';
 
 		$this->defaults['debugger'] = $debugMode;
 		$this->defaults['macros'] = \interface_exists(ILatteFactory::class);
 		$this->defaults['devServer']['enabled'] = $debugMode;
-		$this->defaults['manifest']['optimize'] = ! $debugMode && ( ! $consoleMode || (bool) \getenv('OOPS_WEBPACK_OPTIMIZE_MANIFEST'));
+		$this->defaults['manifest']['optimize'] = !$debugMode && (!$consoleMode || (bool) \getenv('OOPS_WEBPACK_OPTIMIZE_MANIFEST'));
 	}
 
 
@@ -86,7 +86,7 @@ class WebpackExtension extends CompilerExtension
 		$basePathProvider = $builder->addDefinition($this->prefix('pathProvider.basePathProvider'))
 			->setType(BasePathProvider::class)
 			->setFactory(NetteHttpBasePathProvider::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 
 		$builder->addDefinition($this->prefix('pathProvider'))
 			->setFactory(PublicPathProvider::class, [$config['build']['publicPath'], $basePathProvider]);
@@ -111,7 +111,7 @@ class WebpackExtension extends CompilerExtension
 		$assetResolver = $this->setupAssetResolver($config);
 
 		if ($config['debugger']) {
-			$assetResolver->setAutowired(FALSE);
+			$assetResolver->setAutowired(false);
 			$builder->addDefinition($this->prefix('assetResolver.debug'))
 				->setFactory(AssetNameResolver\DebuggerAwareAssetNameResolver::class, [$assetResolver]);
 		}
@@ -145,7 +145,7 @@ class WebpackExtension extends CompilerExtension
 			\assert($definition instanceof ServiceDefinition);
 
 			$definition->addSetup('@Tracy\Bar::addPanel', [
-				new Statement(WebpackPanel::class)
+				new Statement(WebpackPanel::class),
 			]);
 		}
 	}
@@ -161,17 +161,17 @@ class WebpackExtension extends CompilerExtension
 		$assetResolver = $builder->addDefinition($this->prefix('assetResolver'))
 			->setType(AssetNameResolver\AssetNameResolverInterface::class);
 
-		if ($config['manifest']['name'] !== NULL) {
-			if ( ! $config['manifest']['optimize']) {
+		if ($config['manifest']['name'] !== null) {
+			if (!$config['manifest']['optimize']) {
 				$loader = $builder->addDefinition($this->prefix('manifestLoader'))
 					->setFactory(ManifestLoader::class, [
 						1 => new Statement($config['manifest']['mapper']),
 					])
-					->setAutowired(FALSE);
+					->setAutowired(false);
 
 				$assetResolver->setFactory(AssetNameResolver\ManifestAssetNameResolver::class, [
 					$config['manifest']['name'],
-					$loader
+					$loader,
 				]);
 
 			} else {
@@ -202,5 +202,4 @@ class WebpackExtension extends CompilerExtension
 
 		return $assetResolver;
 	}
-
 }

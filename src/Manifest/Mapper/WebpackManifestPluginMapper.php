@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter\Manifest\Mapper;
 
+
 use Oops\WebpackNetteAdapter\Manifest\ManifestMapper;
 
 /**

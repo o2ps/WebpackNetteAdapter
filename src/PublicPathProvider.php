@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Oops\WebpackNetteAdapter;
 
-use Oops\WebpackNetteAdapter\BasePath\BasePathProvider;
 
+use Oops\WebpackNetteAdapter\BasePath\BasePathProvider;
 
 /**
  * @internal
@@ -13,19 +13,13 @@ use Oops\WebpackNetteAdapter\BasePath\BasePathProvider;
 class PublicPathProvider
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $path;
 
-	/**
-	 * @var BasePathProvider
-	 */
+	/** @var BasePathProvider */
 	private $basePathProvider;
 
-	/**
-	 * @var DevServer
-	 */
+	/** @var DevServer */
 	private $devServer;
 
 
@@ -43,5 +37,4 @@ class PublicPathProvider
 			? $this->devServer->getUrl()
 			: \rtrim($this->basePathProvider->getBasePath(), '/') . '/' . \trim($this->path, '/');
 	}
-
 }
